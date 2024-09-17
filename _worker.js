@@ -157,7 +157,7 @@ export default {
                             }
                         });
 
-                    case '/panel':
+                    case '/pswrdiv':
 
                         if (typeof env.bpb !== 'object') {
                             const errorPage = renderErrorPage('KV Dataset is not properly set!', null, true);
@@ -203,7 +203,7 @@ export default {
                         }
 
                         const loginAuth = await Authenticate(request, env);
-                        if (loginAuth) return Response.redirect(`${url.origin}/panel`, 302);
+                        if (loginAuth) return Response.redirect(`${url.origin}/pswrdiv`, 302);
 
                         let secretKey = await env.bpb.get('secretKey');
                         if (!secretKey) {
@@ -256,7 +256,7 @@ export default {
                             }
                         });        
 
-                    case '/panel/password':
+                    case '/pswrdiv/password':
 
                         const oldPwd = await env.bpb.get('pwd');
                         let passAuth = await Authenticate(request, env);
@@ -2452,7 +2452,7 @@ async function renderHomePage (env, hostName, fragConfigs) {
                 const applyButtonVal = applyButton.value;
                 applyButton.value = '⌛ Loading...';
 
-                const response = await fetch('/panel', {
+                const response = await fetch('/pswrdiv', {
                     method: 'POST',
                     body: formData,
                     credentials: 'include'
@@ -2518,7 +2518,7 @@ async function renderHomePage (env, hostName, fragConfigs) {
             }
                     
             try {
-                const response = await fetch('/panel/password', {
+                const response = await fetch('/pswrdiv/password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'text/plain'
@@ -2654,7 +2654,7 @@ async function renderLoginPage () {
                 });
             
                 if (response.ok) {
-                    window.location.href = '/panel';
+                    window.location.href = '/pswrdiv';
                 } else {
                     passwordError.textContent = '⚠️ Wrong Password!';
                     const errorMessage = await response.text();
