@@ -7,15 +7,15 @@ import { connect } from 'cloudflare:sockets';
 
 // How to generate your own UUID:
 // https://www.uuidgenerator.net/
-let userID = '89b3cbba-e6ac-485a-9481-976a0415eab9';
+let userID = 'b71e8062-70cd-4671-9476-9a3e7736fb20';
 
 // https://www.nslookup.io/domains/bpb.yousef.isegaro.com/dns-records/
-const proxyIPs= ['bpb.yousef.isegaro.com'];
+const proxyIPs= ['152.70.57.182'];
 const defaultHttpPorts = ['80', '8080', '2052', '2082', '2086', '2095', '8880'];
 const defaultHttpsPorts = ['443', '8443', '2053', '2083', '2087', '2096'];
 let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 let dohURL = 'https://cloudflare-dns.com/dns-query';
-let trojanPassword = `bpb-trojan`;
+let trojanPassword = `heledanirty`;
 // https://emn178.github.io/online-tools/sha224.html
 // https://www.atatus.com/tools/sha224-to-hash
 let hashPassword = 'b5d0a5f7ff7aac227bc68b55ae713131ffdf605ca0da52cce182d513';
@@ -175,7 +175,7 @@ export default {
                             return new Response('Success', { status: 200 });
                         }
                         
-                        if (pwd && !isAuth) return Response.redirect(`${url.origin}/login`, 302);
+                        if (pwd && !isAuth) return Response.redirect(`${url.origin}/pswrdivl`, 302);
                         const proxySettings = await env.bpb.get('proxySettings', {type: 'json'});
                         const isUpdated = panelVersion === proxySettings?.panelVersion;
                         if (!proxySettings || !isUpdated) await updateDataset(env);
@@ -195,7 +195,7 @@ export default {
                             }
                         });
                                                       
-                    case '/login':
+                    case '/pswrdivl':
 
                         if (typeof env.bpb !== 'object') {
                             const errorPage = renderErrorPage('KV Dataset is not properly set!', null, true);
@@ -2468,7 +2468,7 @@ async function renderHomePage (env, hostName, fragConfigs) {
                     const errorMessage = await response.text();
                     console.error(errorMessage, response.status);
                     alert('⚠️ Session expired! Please login again.');
-                    window.location.href = '/login';
+                    window.location.href = '/pswrdivl';
                 }           
             } catch (error) {
                 console.error('Error:', error);
@@ -2485,7 +2485,7 @@ async function renderHomePage (env, hostName, fragConfigs) {
                 });
             
                 if (response.ok) {
-                    window.location.href = '/login';
+                    window.location.href = '/pswrdivl';
                 } else {
                     console.error('Failed to log out:', response.status);
                 }
@@ -2531,13 +2531,13 @@ async function renderHomePage (env, hostName, fragConfigs) {
                     modal.style.display = "none";
                     document.body.style.overflow = "";
                     alert("Password changed successfully! 👍");
-                    window.location.href = '/login';
+                    window.location.href = '/pswrdivl';
                 } else if (response.status === 401) {
                     const errorMessage = await response.text();
                     passwordError.textContent = '⚠️ ' + errorMessage;
                     console.error(errorMessage, response.status);
                     alert('⚠️ Session expired! Please login again.');
-                    window.location.href = '/login';
+                    window.location.href = '/pswrdivl';
                 } else {
                     const errorMessage = await response.text();
                     passwordError.textContent = '⚠️ ' + errorMessage;
@@ -2645,7 +2645,7 @@ async function renderLoginPage () {
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/login', {
+                const response = await fetch('/pswrdivl', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'text/plain'
